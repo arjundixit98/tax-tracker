@@ -412,12 +412,16 @@ export default function Home() {
             <button className={`tab-btn ${activeTab === 'stocks' ? 'active' : ''}`} onClick={() => setActiveTab('stocks')}>
               Stocks (EQ)
             </button>
-            <button className={`tab-btn ${activeTab === 'mfs' ? 'active' : ''}`} onClick={() => setActiveTab('mfs')}>
-              Mutual Funds (MF)
-            </button>
-            <button className={`tab-btn ${activeTab === 'pm' ? 'active' : ''}`} onClick={() => setActiveTab('pm')}>
-              Precious Metals
-            </button>
+            {processedData.mf.stocksQuarterly.length > 0 && (
+              <button className={`tab-btn ${activeTab === 'mfs' ? 'active' : ''}`} onClick={() => setActiveTab('mfs')}>
+                Mutual Funds (MF)
+              </button>
+            )}
+            {processedData.pm.stocksQuarterly.length > 0 && (
+              <button className={`tab-btn ${activeTab === 'pm' ? 'active' : ''}`} onClick={() => setActiveTab('pm')}>
+                Precious Metals
+              </button>
+            )}
             <button className={`tab-btn ${activeTab === 'dividends' ? 'active' : ''}`} onClick={() => setActiveTab('dividends')}>
               Dividends
             </button>
@@ -451,22 +455,26 @@ export default function Home() {
               {renderDetailedQuarterly(processedData.eq?.quarterly)}
             </div>
 
-            <div className={activeTab === 'mfs' ? 'print-show' : 'hidden print-show'}>
-              <h2>Mutual Funds Performance</h2>
-              {renderMetrics(processedData.mf)}
-              <h3 style={{ marginTop: '2rem', marginBottom: '1rem' }}>Quarterly Detailed Trades</h3>
-              {renderDetailedQuarterly(processedData.mf?.quarterly)}
-            </div>
+            {processedData.mf.stocksQuarterly.length > 0 && (
+              <div className={activeTab === 'mfs' ? 'print-show' : 'hidden print-show'}>
+                <h2>Mutual Funds Performance</h2>
+                {renderMetrics(processedData.mf)}
+                <h3 style={{ marginTop: '2rem', marginBottom: '1rem' }}>Quarterly Detailed Trades</h3>
+                {renderDetailedQuarterly(processedData.mf?.quarterly)}
+              </div>
+            )}
 
-            <div className={activeTab === 'pm' ? 'print-show' : 'hidden print-show'}>
-              <h2>Precious Metals Performance</h2>
-              {renderMetrics(processedData.pm)}
-              <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>
-                Note: Precious metals are taxed as per your applicable income tax slab rate, not under standard STCG/LTCG equity rates.
-              </p>
-              <h3 style={{ marginTop: '2rem', marginBottom: '1rem' }}>Quarterly Detailed Trades</h3>
-              {renderDetailedQuarterly(processedData.pm?.quarterly)}
-            </div>
+            {processedData.pm.stocksQuarterly.length > 0 && (
+              <div className={activeTab === 'pm' ? 'print-show' : 'hidden print-show'}>
+                <h2>Precious Metals Performance</h2>
+                {renderMetrics(processedData.pm)}
+                <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>
+                  Note: Precious metals are taxed as per your applicable income tax slab rate, not under standard STCG/LTCG equity rates.
+                </p>
+                <h3 style={{ marginTop: '2rem', marginBottom: '1rem' }}>Quarterly Detailed Trades</h3>
+                {renderDetailedQuarterly(processedData.pm?.quarterly)}
+              </div>
+            )}
 
             <div className={activeTab === 'dividends' ? 'print-show' : 'hidden print-show'}>
               <h2>Dividend Income</h2>
